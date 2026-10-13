@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CuacaID — Prakiraan Cuaca Indonesia</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Background animated blobs -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⛅</span>
+        <span class="logo-text">CuacaID</span>
+      </div>
+      <div class="header-meta">
+        <span id="live-clock" class="live-clock"></span>
+        <span id="live-date" class="live-date"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Prakiraan Cuaca<br/><span class="gradient-text">10 Kota Besar Indonesia</span></h1>
+      <p class="hero-subtitle">Data prakiraan cuaca 10 hari ke depan · Akurat & Terpercaya</p>
+
+      <!-- City Selector Pills -->
+      <div class="city-pills" id="cityPills"></div>
+    </div>
+  </section>
+
+  <!-- Main Weather Card -->
+  <main class="main-container">
+    <!-- Current Weather Big Card -->
+    <div class="current-card" id="currentCard">
+      <div class="current-card__left">
+        <div class="current-city" id="currentCity">Jakarta</div>
+        <div class="current-province" id="currentProvince">DKI Jakarta</div>
+        <div class="current-temp" id="currentTemp">--°</div>
+        <div class="current-desc" id="currentDesc">--</div>
+        <div class="current-feel">Terasa seperti <span id="currentFeel">--°</span></div>
+      </div>
+      <div class="current-card__right">
+        <div class="current-icon" id="currentIcon">🌤️</div>
+        <div class="current-stats">
+          <div class="stat-item">
+            <span class="stat-icon">💧</span>
+            <div>
+              <div class="stat-label">Kelembapan</div>
+              <div class="stat-val" id="statHumidity">--%</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🌬️</span>
+            <div>
+              <div class="stat-label">Angin</div>
+              <div class="stat-val" id="statWind">-- km/h</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">👁️</span>
+            <div>
+              <div class="stat-label">Jarak Pandang</div>
+              <div class="stat-val" id="statVis">-- km</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🌡️</span>
+            <div>
+              <div class="stat-label">Tekanan</div>
+              <div class="stat-val" id="statPressure">-- hPa</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">☀️</span>
+            <div>
+              <div class="stat-label">Indeks UV</div>
+              <div class="stat-val" id="statUV">--</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🌧️</span>
+            <div>
+              <div class="stat-label">Curah Hujan</div>
+              <div class="stat-val" id="statRain">-- mm</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today Hourly Forecast -->
+    <div class="section-card">
+      <div class="section-header">
+        <span class="section-icon">⏱️</span>
+        <h2 class="section-title">Prakiraan Per Jam — Hari Ini</h2>
+      </div>
+      <div class="hourly-scroll" id="hourlyScroll"></div>
+    </div>
+
+    <!-- 10-Day Forecast -->
+    <div class="section-card">
+      <div class="section-header">
+        <span class="section-icon">📅</span>
+        <h2 class="section-title">Prakiraan 10 Hari ke Depan</h2>
+      </div>
+      <div class="daily-grid" id="dailyGrid"></div>
+    </div>
+
+    <!-- Weather Info Cards -->
+    <div class="info-grid">
+      <div class="info-card sunrise-card">
+        <div class="info-card__title">🌅 Matahari</div>
+        <div class="info-card__body">
+          <div class="sun-row"><span>Terbit</span><strong id="infoSunrise">--:--</strong></div>
+          <div class="sun-bar-wrap">
+            <div class="sun-bar">
+              <div class="sun-progress" id="sunProgress"></div>
+              <div class="sun-dot" id="sunDot"></div>
+            </div>
+          </div>
+          <div class="sun-row"><span>Terbenam</span><strong id="infoSunset">--:--</strong></div>
+        </div>
+      </div>
+
+      <div class="info-card air-card">
+        <div class="info-card__title">🌬️ Kualitas Udara</div>
+        <div class="info-card__body">
+          <div class="aqi-value" id="aqiValue">--</div>
+          <div class="aqi-label" id="aqiLabel">--</div>
+          <div class="aqi-bar-wrap">
+            <div class="aqi-bar">
+              <div class="aqi-fill" id="aqiFill"></div>
+            </div>
+            <div class="aqi-scale">
+              <span>Baik</span><span>Sedang</span><span>Tidak Sehat</span><span>Berbahaya</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card moon-card">
+        <div class="info-card__title">🌙 Fase Bulan</div>
+        <div class="info-card__body moon-body">
+          <div class="moon-icon" id="moonIcon">🌕</div>
+          <div class="moon-name" id="moonName">--</div>
+          <div class="moon-illum">Iluminasi: <span id="moonIllum">--%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- City Overview Map Cards -->
+    <div class="section-card">
+      <div class="section-header">
+        <span class="section-icon">🗺️</span>
+        <h2 class="section-title">Ringkasan Semua Kota</h2>
+      </div>
+      <div class="city-overview-grid" id="cityOverviewGrid"></div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 CuacaID · Data prakiraan berdasarkan model cuaca regional · Referensi: <a href="https://bmkg.go.id" target="_blank">BMKG</a></p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
